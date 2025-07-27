@@ -1,0 +1,99 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Georgia', serif;
+  background-image: url('images/english-woods.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.main-container {
+  background-color: rgba(94, 129, 53, 0.8); 
+  border-radius: 20px;
+  padding: 2em;
+  max-width: 95%;
+  width: 800px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inline-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5em 0;
+  gap: 1em; /* space between label and select */
+}
+
+label {
+  font-size: 1.5em; 
+}
+
+/* Increase font size for dropdowns */
+select {
+  font-size: 1.0em; 
+  padding: 0.75em;
+}
+
+
+button {
+  font-size: 1.5em;
+}
+
+h1, h2, label, button, #result {
+  font-family: 'Uncial Antiqua', cursive;
+  color: #2d2a26;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-top: 2em;
+}
+
+h3 {
+  color: #2d2a26; /* same as main text color */
+}
+
+h3 a {
+  color: #314104; /* link color matching your palette */
+}
+h3 a:hover {
+  color: #a5a58d; /* hover color */
+}
+
+button {
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 1.2em;
+  padding: 0.75em 1.5em;
+  background-color: #9b8b6e;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 1em;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #7a6f5c;
+  transform: translateY(-2px);
+}
+
+#result {
+  margin-top: 2em;
+  font-size: 1
+}
