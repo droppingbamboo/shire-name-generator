@@ -1,11 +1,34 @@
+
 const express = require('express');
 const cors = require('cors');
 const { google } = require('googleapis');
+const { JWT } = require('google-auth-library');
 const path = require('path');
+
 const app = express();
 const PORT = 3000;
 
-//defining cache
+// Parse service account JSON from environment variable
+const keys = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+
+// Initialize JWT client with credentials
+const client = new JWT({
+  email: keys.client_email,
+  key: keys.private_key,
+  scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+});
+
+// Authenticate immediately
+(async () => {
+  try {
+    await client.authorize();
+    console.log("Google API client authorized successfully.");
+  } catch (err) {
+    console.error("Error during Google API client authorization:", err);
+  }
+})();
+
+// Cache setup for sheet data
 let cache = {
   data: null,
   timestamp: 0,
@@ -15,19 +38,15 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Load credentials
-const auth = new google.auth.GoogleAuth({
-  keyFile: 'shire-name-gen-7d8c8258b597.json',
-  scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-});
+// Google Sheet info
+const spreadsheetId = '1ytizffUOdn2owXSWMGmjoH4W476A_W7S29QHS6yVfB8'; // your sheet ID
+const range = 'Sheet1!A:D';
 
+async function fetchSheetData() {
+  // Ensure client is authorized
+  await client.authorize();
+  
 
-
-  const spreadsheetId = '1ytizffUOdn2owXSWMGmjoH4W476A_W7S29QHS6yVfB8'; //actual sheet ID
-  const range = 'Sheet1!A:D'; 
-
-  async function fetchSheetData() {
-  const client = await auth.getClient();
   const sheets = google.sheets({ version: 'v4', auth: client });
 
   const res = await sheets.spreadsheets.values.get({
@@ -38,8 +57,7 @@ const auth = new google.auth.GoogleAuth({
   const rows = res.data.values;
   if (!rows || rows.length === 0) return [];
 
-  const headers = rows[0];
-  const data = rows.slice(1);
+  const data = rows.slice(1); // Skip headers
 
   const result = {
     eeowna: [],
