@@ -11,6 +11,7 @@ const keysPath = '/etc/secrets/GOOGLE_SERVICE_ACCOUNT_KEY.json';
 
 const rawData = fs.readFileSync(keysPath, 'utf8');
 const keys = JSON.parse(rawData);
+keys.private_key = keys.private_key.replace(/\\n/g, '\n');
 // Initialize JWT client with credentials
 const client = new JWT({
   email: keys.client_email,
