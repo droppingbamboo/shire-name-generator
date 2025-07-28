@@ -7,10 +7,10 @@ const path = require('path');
 
 const app = express();
 const PORT = 3000;
+const keysPath = '/etc/secrets/GOOGLE_SERVICE_ACCOUNT_KEY.json';
 
-// Parse service account JSON from environment variable
-const keys = JSON.parse("/etc/secrets/GOOGLE_SERVICE_ACCOUNT_KEY.json");
-
+const rawData = fs.readFileSync(keysPath, 'utf8');
+const keys = JSON.parse(rawData);
 // Initialize JWT client with credentials
 const client = new JWT({
   email: keys.client_email,
